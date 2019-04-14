@@ -1,0 +1,78 @@
+Làm ch?c nang d?m view toàn trang ho?c trang blog hay page c? th? b?ng thao tác file thay vì thao tác table trong database.
+T?ng lu?t xem trang b?ng t?t c? các lu?t request b?n lên sever d?n t?t c? các trang du?c d?t b? d?m.
+M?i request là 1 views v?y ta dùng middleware d? check và tang views
+b1. T?o ra các 1 file middleware.
+b2. Vào config/filesystems.php
+thi?t l?p m?t b? d?m trong dissk m?ng thêm m?t disk views
+'views' => [
+'driver' => 'local',
+'root' => public_path('views/'),
+'visibility' => 'public',
+],
+vào thu m?c c?u hình public/views/ v?a t?o thêm m?t files views.php và m?c d?nh d?t s? view là 0 .
+vào method handle trong file middleware bu?c 1 gõ l?nh sau :
+$get_views = (int)Storage::disk("views")->get("views.php");
+$view_news = $get_views + 1;
+$views_all = Storage::disk("views")->put("views.php", $view_news);
+// hi?n th?
+dd($views_all);
+Bu?c 3 : Vào các route c?n d?m view và dua middleware dó vào và b?t d?u request route d? xem k?t qu?.
+Bu?c 4 : Ð? hi?n th? k?t qu? dâu dó ch? c?n g?i :
+Storage::disk("views")->get("views.php");
+// CODE do?n :
+$file = (int)Storage::disk("views")->get("views.php");
+$view_news = $file + 1;
+$file = Storage::disk("views")->put("views.php", $view_news);
+// S? d?ng xem t?ng views
+echo $file = (int)Storage::disk("views")->get("views.php");
+ii. T?o b? d?m cho trang blog ho?c product view c? th?.
+bu?c 1: Kh?i t?o file luu tr? id và s? view.
+-- Check request -> slug ho?c id xem có t?n t?i ko n?u có thì ti?p t?c.. if(!empty($request->slug)){ // code }
+T?o m?t file views_page.php trong thu m?c public/views_page.php
+Ð?t giá tr? vào dó là m?t chu?i json r?ng
+{"0":0}
+Ti?p theo c?u hình disk storage trong config/filesystems.php
+'views_page' => [
+'driver' => 'local',
+'root' => public_path('views/'),
+'visibility' => 'public',
+],
+bu?c 2 : L?y chu?i json chuy?n sang m?ng
+// l?y do?n json trong file chuy?n qua m?ng
+$str = Storage::disk("uploads")->get("views_page.php");
+$collection = json_decode($str, true);
+Bu?c 3 : Ki?m tra key dã t?n t?i n?u dã t?n t?i m?i request b?n lên trang là + thêm 1 views.
+N?u ko thì t?o m?i key == 0;
+if (array_key_exists("$request->slug", $collection)) {
+$collection["$request->slug"] = $collection["$request->slug"] + 1;
+} else {
+$collection["$request->slug"] = 0;
+}
+Bu?c 4 : Chuy?n tr? nó v? chu?i json và c?p nh?p d? li?u vào file dó.
+$data = collect($collection)->toJson();
+Storage::disk("uploads")->put("views_page.php", $data);
+Bu?c 5 : s? d?ng d? xem hi?n th? view c?a trang b?t k? :
+$str = Storage::disk("uploads")->get("views_page.php");
+$collection = json_decode($str, true);
+if (array_key_exists("$request->slug", $collection)) {
+echo $collection["$request->slug"] = $collection["$request->slug"];
+}
+// CODE d?y d? :
+$str = Storage::disk("uploads")->get("views_page.php");
+$collection = json_decode($str, true);
+if (array_key_exists("$request->slug", $collection)) {
+$collection["$request->slug"] = $collection["$request->slug"] + 1;
+} else {
+$collection["$request->slug"] = 0;
+}
+$views_page = collect($collection)->toJson();
+Storage::disk("uploads")->put("views_page.php", $views_page);
+// S? d?ng trong controller d? b?t request l?y data xong chuy?n qua blade views.
+function .... (Request $request) {
+$str = Storage::disk("views_page")->get("views_page.php");
+$collection = json_decode($str, true);
+if (array_key_exists("$request->slug", $collection)) {
+$views_page = $collection["$request->slug"]; 
+}
+return view(".....","views_page"=>$views_page)
+}

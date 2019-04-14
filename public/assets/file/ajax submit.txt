@@ -1,0 +1,103 @@
+var formData = new FormData();
+formData.append('section', 'general');
+formData.append('action', 'previewImg');
+formData.append('image', $('input[type=file]')[0].files[0]);
+
+
+
+formData.append('id', 'id');
+
+var form = $('#xyz')[0];
+var formData = new FormData(form);
+$.ajax({
+	headers: {
+				  'X-CSRF-TOKEN': '{{ csrf_token() }}'
+			},
+	type:"post",
+	url:"{{route('ajax....')}}",
+	data: formData,
+	contentType: false,
+	processData: false,
+	success:function(data){
+
+	},
+	dataType:"json"
+});
+
+
+$("#d-form-het-hang")[0].reset();
+_______________________________
+
+$.ajax({
+	headers: {
+		  'X-CSRF-TOKEN': '{{ csrf_token() }}'
+	},
+	type:"post",
+	url:"{{route('ajax....')}}",
+	data:{'id':id},
+	success:function(data){
+		
+	},
+	cache:false,
+	dataType: 'json'
+});
+
+
+$start_date = new DateTime($value->updated_at);
+$since_start = $start_date->diff(new DateTime());
+// echo $since_start->days.' days total<br>';
+// echo $since_start->y.' years<br>';
+// echo $since_start->m.' months<br>';
+// echo $since_start->d.' days<br>';
+// echo $since_start->h.' hours<br>';
+// echo $since_start->i.' minutes<br>';
+// echo $since_start->s.' seconds<br>';
+     $minutes = $since_start->days * 24 * 60;
+     $minutes += $since_start->h * 60;
+     $minutes += $since_start->i;
+                      // T?ng phút $minutes
+
+...
+var time = new Date();
+var time = time.getTime();
+...
+
+var theyear=time.getFullYear()
+var themonth=time.getMonth()+1
+var thetoday=time.getDate()
+
+
+
+//
+var d = new Date(1469433907836);
+d.toLocaleString()
+"7/25/2016, 1:35:07 PM"
+d.toLocaleDateString()
+"7/25/2016"
+d.toDateString()
+"Mon Jul 25 2016"
+d.toTimeString()
+"13:35:07 GMT+0530 (India Standard Time)"
+d.toLocaleTimeString()
+"1:35:07 PM"
+
+
+..
+var keyCode = e.keyCode || e.which;
+
+$.magnificPopup.open({
+   items: {
+       src: '#modal-popup-tichdiem24' 
+   },
+   type: 'inline',
+   blackbg: true,
+   zoom: {
+    enabled: true,
+    duration: 300 
+  },
+  mainClass: 'my-mfp-zoom-in',
+  callbacks: {
+  beforeOpen: function() {
+   }
+  }
+});

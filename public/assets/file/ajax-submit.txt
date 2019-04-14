@@ -1,0 +1,75 @@
+﻿var form = $('#xyz')[0];
+var formData = new FormData(form);
+
+
+var formData = new FormData();
+formData.append('section', 'general');
+formData.append('action', 'previewImg');
+formData.append('image', $('input[type=file]')[0].files[0]);
+
+/////////////////////
+var form = $('#xyz')[0];
+var formData = new FormData(form);
+$.ajax({
+	headers: {
+				  'X-CSRF-TOKEN': {!! csrf_token() !!}
+			},
+	type:"post",
+	url:"{{route('ajax.remove.cart')}}",
+	data: formData,
+	contentType: false,
+	processData: false,
+	success:function(data){
+		
+	},
+	dataType:"json"
+});
+
+/////////////////////
+_______________________________
+<a href="google.com/nguyentruongson" class="click_me"></a>
+
+
+$(document).on('click','.click_me',function(e){
+	e.preventDefault();
+	link = $(this).attr('href');
+	$.ajax({
+		headers: {
+			  'X-CSRF-TOKEN': {!! csrf_token() !!}
+		},
+		type:"post",
+		url:"{{route('abc')}}",
+		data:{'open_link':link},
+		success:function(data){
+			// data = abc
+			data = {status:true,message:"tao da nhan duoc link"}
+		},
+		cache:false,
+		dataType: 'json'
+	});
+});
+
+public function abc(Request $req){
+	$link = $req->open_link;
+	return json_encode(array('status'=>true,'message'=>"tao da nhan duoc link"));
+}
+
+
+$.ajax({
+	headers: {
+		  'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+	},
+	type:"post",
+	url:"{{route('ajax.remove.cart')}}",
+	data:{'id':"1",'name':},
+	success:function(data){
+		
+	},
+	cache:false,
+	dataType: 'html'
+});
+
+
+1: submit cả form product bằng ajax, nếu lưu thành công thì hiển thị popup
+
+2: có một thẻ div chứa id của sản phẩm, click vào div load sản phẩm và hiển thị popup giá

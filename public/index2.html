@@ -1,0 +1,11 @@
+SELECT *, GROUP_CONCAT(attribute_id) as stra FROM product_attribute GROUP BY product_id
+
+SELECT *, GROUP_CONCAT(attribute_id) as stra FROM product_attribute   GROUP BY product_id HAVING stra LIKE '%140%' or stra like "%159%" 
+;
+
+
+SELECT *, GROUP_CONCAT(attribute_id) as stra FROM product_attribute   GROUP BY product_id HAVING ( stra LIKE '%140%' or stra like "%159%") and stra LIKE '%135%' and ( stra LIKE '%140%' or stra like "%159%");
+
+
+SELECT * , CONCAT(',', GROUP_CONCAT(attribute_id) ,',')  as stra FROM product_attribute   GROUP BY product_id HAVING ( stra LIKE '%140%' or stra like "%159%") and stra LIKE '%135%' and ( stra LIKE '%140%' or stra like "%159%");
+

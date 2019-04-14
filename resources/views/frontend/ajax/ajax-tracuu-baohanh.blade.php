@@ -29,7 +29,7 @@
                 </tr>
                 <tr>
                     <td class="kq-tracuu-tittle"><h5>Ngày mua</h5></td>
-                    <td><h5>{!! date("d.m.Y",time($item->created_at)) !!}</h5></td>
+                    <td><h5>{{ date("d.m.Y", strtotime($item->created_at)) }}</h5></td>
                 </tr>
                 <tr>
                     <td class="kq-tracuu-tittle"><h5>Ngày hết hạn bảo hành</h5></td>

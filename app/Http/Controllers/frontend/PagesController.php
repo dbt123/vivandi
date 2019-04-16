@@ -240,7 +240,11 @@ class PagesController extends Controller
         $id = $req->id;
         $frame = Frame::find($id);
         if($frame){
-            $html = view('frontend.ajax.popup-dowload',['frame'=>$frame]);
+            $infoCus = null;
+            if (Session::has('download.info')) {
+                $infoCus = Session::get('download.info');
+            }
+            $html = view('frontend.ajax.popup-dowload',['frame'=>$frame, 'infoCus' => $infoCus]);
             return json_encode(array('status'=>true,'html'=>$html."",'frame'=>$frame));
         }else{
             return json_encode(array('status'=>false));
@@ -273,8 +277,12 @@ class PagesController extends Controller
             $dowload->text_6 = $content;
             $dowload->type = "Dowload";
             $dowload->status = 1;
-            $dowload->save();
-            return json_encode(array('status'=>true,'frame'=>$frame));
+            Session::set('download.info', $dowload);
+            if (Session::has('download.info')) {
+                $dowload->save();
+                return json_encode(array('status'=>true,'frame'=>$frame));
+            }
+            // return json_encode(array('status'=>Session::has('downdoad.info')));
         } 
         
     }

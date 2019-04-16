@@ -17,7 +17,19 @@
     @endif
 @endsection
 @section('css')
-
+<style>
+    #modal-popup-detail-img {
+        padding: 0px
+    }
+    #modal-popup-detail-img .mfp-close {
+        display: none
+    }
+    @media (min-width:768px) {
+        #modal-popup-detail-img {
+            width: 700px;
+        }
+    }
+</style>
 @endsection
 @section('content')
 
@@ -222,6 +234,11 @@
         <!-- POPUP ///////////////////////////////////////////////////////////////////////////// -->
         <div class="vivaldi-popup">
             <!--Popup download-->
+            <div id="modal-popup-detail-img" class="zoom-anim-dialog zoom mfp-hide center-col bg-white modal-popup-main vivaldi-popup-content" >
+                <img src="" alt="">
+            </div>
+                 <!--Hết popup download-->
+            <!--Popup download-->
             <div id="modal-popup-download" class="zoom-anim-dialog mfp-hide center-col bg-white modal-popup-main vivaldi-popup-content" >
                <form id="d_popup_dowload">
                    
@@ -307,16 +324,16 @@
         <script>
         $(document).ready(function() {
             
-              $(".owl-model").owlCarousel ({
-              navigation : true,
-              pagination : false,
-              slideSpeed : 200,
-              paginationSpeed : 400,
-              singleItem : true,
-              items : 1,
-              autoPlay : true
-              });
+            $(".owl-model").owlCarousel ({
+            navigation : true,
+            pagination : false,
+            slideSpeed : 200,
+            paginationSpeed : 400,
+            singleItem : true,
+            items : 1,
+            autoPlay : true
             });
+        });
         </script>
         <script>
             $(document).ready(function() {
@@ -396,6 +413,7 @@
                     data:{'id':id},
                     success:function(data){
                         if(data.status == true){
+                            // console.log(data);
                             $.magnificPopup.open({
                                 items: {
                                     src: '#modal-popup-download'
@@ -959,7 +977,30 @@
 
         <script>
             $(document).ready(function(){
-                $('.zoom').zoom();
+                $('.zoom').click(function () {
+                    var src = $(this).children('img').attr('src');
+                    $('#modal-popup-detail-img img').attr('src', src);
+                    $('.zoom').zoom();
+
+                    // console.log();
+                    $.magnificPopup.open({
+                        items: {
+                            src: '#modal-popup-detail-img' 
+                        },
+                        type: 'inline',
+                        blackbg: true,
+                        zoom: {
+                                enabled: true,
+                                duration: 300 
+                                },
+                        mainClass: 'my-mfp-zoom-in',
+                        callbacks: {
+                            beforeOpen: function() {
+                            
+                            }
+                        }
+                    });
+                });
                 if($(window).width() >= 767){
                     $('.t-hide').remove();
                 }
